@@ -7,346 +7,320 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg: #0e0e14;
-    --surface: #17171f;
-    --surface2: #1e1e2a;
-    --border: rgba(255,255,255,0.08);
-    --text: #f0eef8;
-    --muted: rgba(240,238,248,0.45);
-    --accent: #a78bfa;
-    --accent2: #f472b6;
-    --gold: #fbbf24;
-    --radius: 16px;
-    --font-display: 'ZCOOL XiaoWei', serif;
-    --font-body: 'Noto Sans SC', sans-serif;
-  }
+:root {
+  --bg: #0e0e14;
+  --surface: #17171f;
+  --surface2: #1e1e2a;
+  --border: rgba(255,255,255,0.08);
+  --text: #f0eef8;
+  --muted: rgba(240,238,248,0.45);
+  --accent: #a78bfa;
+}
 
-  html, body {
-    height: 100%;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    -webkit-tap-highlight-color: transparent;
-    overflow-x: hidden;
-  }
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans SC', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
 
-  body {
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 0 40px;
-  }
+body {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 48px;
+}
 
-  /* Stars background */
-  .stars {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .star {
-    position: absolute;
-    border-radius: 50%;
-    background: white;
-    animation: twinkle var(--d) infinite ease-in-out;
-    opacity: 0;
-  }
-  @keyframes twinkle {
-    0%, 100% { opacity: 0; transform: scale(0.8); }
-    50% { opacity: var(--o); transform: scale(1); }
-  }
+.stars {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--d) infinite ease-in-out;
+  opacity: 0;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: var(--o); transform: scale(1); }
+}
 
-  .page {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 440px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 20px;
-  }
+.page {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+}
 
-  /* Header */
-  .header {
-    text-align: center;
-    padding: 40px 0 24px;
-  }
-  .header h1 {
-    font-family: var(--font-display);
-    font-size: clamp(28px, 8vw, 38px);
-    color: var(--text);
-    letter-spacing: 2px;
-    line-height: 1.2;
-    background: linear-gradient(135deg, #f0eef8 30%, #a78bfa 70%, #f472b6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .header p {
-    margin-top: 6px;
-    font-size: 13px;
-    color: var(--muted);
-    letter-spacing: 0.5px;
-  }
+.header {
+  text-align: center;
+  padding: 36px 0 20px;
+}
+.header h1 {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: clamp(28px, 8vw, 38px);
+  letter-spacing: 2px;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #f0eef8 30%, #a78bfa 70%, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header p {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
 
-  /* Wheel */
-  .wheel-wrap {
-    position: relative;
-    width: min(320px, 86vw);
-    height: min(320px, 86vw);
-    margin: 0 auto 8px;
-  }
+.wheel-wrap {
+  position: relative;
+  width: min(320px, 86vw);
+  height: min(320px, 86vw);
+  margin: 0 auto 8px;
+}
 
-  .wheel-glow {
-    position: absolute;
-    inset: -20px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 70%);
-    pointer-events: none;
-    transition: opacity 0.5s;
-  }
-  .wheel-glow.active {
-    background: radial-gradient(circle, rgba(167,139,250,0.35) 0%, transparent 70%);
-    animation: pulse-glow 0.8s ease-in-out infinite alternate;
-  }
-  @keyframes pulse-glow {
-    from { opacity: 0.6; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1.05); }
-  }
+.wheel-glow {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 70%);
+  pointer-events: none;
+  transition: background 0.5s;
+}
+.wheel-glow.active {
+  background: radial-gradient(circle, rgba(167,139,250,0.4) 0%, transparent 70%);
+  animation: pulse-glow 0.8s ease-in-out infinite alternate;
+}
+@keyframes pulse-glow {
+  from { transform: scale(0.95); }
+  to   { transform: scale(1.05); }
+}
 
-  .pointer {
-    position: absolute;
-    top: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    filter: drop-shadow(0 0 6px rgba(251,191,36,0.8));
-  }
-  .pointer svg { display: block; }
+.pointer {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  filter: drop-shadow(0 0 8px rgba(251,191,36,0.9));
+}
 
-  #wheelCanvas {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    cursor: pointer;
-    display: block;
-    box-shadow:
-      0 0 0 3px rgba(167,139,250,0.3),
-      0 0 40px rgba(167,139,250,0.1),
-      0 20px 60px rgba(0,0,0,0.5);
-  }
+#wheelCanvas {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  cursor: pointer;
+  display: block;
+  box-shadow:
+    0 0 0 3px rgba(167,139,250,0.3),
+    0 20px 60px rgba(0,0,0,0.5);
+}
 
-  /* Spin button */
-  .spin-btn {
-    display: block;
-    margin: 16px auto 0;
-    padding: 14px 52px;
-    font-family: var(--font-display);
-    font-size: 20px;
-    letter-spacing: 3px;
-    color: #0e0e14;
-    background: linear-gradient(135deg, #fbbf24, #f472b6, #a78bfa);
-    background-size: 200% 200%;
-    border: none;
-    border-radius: 99px;
-    cursor: pointer;
-    box-shadow: 0 4px 24px rgba(167,139,250,0.35), 0 2px 8px rgba(0,0,0,0.3);
-    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-    animation: grad-shift 3s ease infinite;
-  }
-  @keyframes grad-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  .spin-btn:active { transform: scale(0.95); }
-  .spin-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.spin-btn {
+  display: block;
+  margin: 18px auto 0;
+  padding: 14px 52px;
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: #0e0e14;
+  background: linear-gradient(135deg, #fbbf24, #f472b6, #a78bfa);
+  background-size: 200% 200%;
+  border: none;
+  border-radius: 99px;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(167,139,250,0.35), 0 2px 8px rgba(0,0,0,0.3);
+  transition: transform 0.15s, opacity 0.15s;
+  animation: grad-shift 3s ease infinite;
+}
+@keyframes grad-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.spin-btn:active   { transform: scale(0.95); }
+.spin-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
-  /* Result */
-  .result-area {
-    margin: 20px 0 0;
-    min-height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .result-card {
-    background: var(--surface);
-    border: 1px solid rgba(167,139,250,0.25);
-    border-radius: 20px;
-    padding: 14px 28px;
-    text-align: center;
-    opacity: 0;
-    transform: translateY(10px) scale(0.95);
-    transition: opacity 0.4s, transform 0.4s;
-  }
-  .result-card.show {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  .result-emoji { font-size: 28px; margin-bottom: 4px; }
-  .result-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
-  .result-name {
-    font-family: var(--font-display);
-    font-size: clamp(22px, 6vw, 28px);
-    color: var(--text);
-    margin-top: 2px;
-    background: linear-gradient(135deg, #f0eef8, #a78bfa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+.result-area {
+  margin: 20px 0 0;
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.result-card {
+  background: var(--surface);
+  border: 1px solid rgba(167,139,250,0.25);
+  border-radius: 20px;
+  padding: 14px 32px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
+  transition: opacity 0.4s, transform 0.4s;
+}
+.result-card.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.result-emoji { font-size: 28px; margin-bottom: 4px; }
+.result-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+.result-name {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: clamp(22px, 6vw, 28px);
+  margin-top: 2px;
+  background: linear-gradient(135deg, #f0eef8, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-  /* Divider */
-  .divider {
-    width: 100%;
-    height: 1px;
-    background: var(--border);
-    margin: 28px 0 0;
-  }
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin: 28px 0 0;
+}
 
-  /* Menu toggle */
-  .menu-toggle {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 0;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--muted);
-    font-family: var(--font-body);
-    font-size: 13px;
-    letter-spacing: 0.5px;
-  }
-  .menu-toggle:active { opacity: 0.7; }
-  .toggle-left { display: flex; align-items: center; gap: 8px; }
-  .toggle-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-  }
-  .toggle-arrow {
-    font-size: 10px;
-    transition: transform 0.3s;
-  }
-  .toggle-arrow.open { transform: rotate(180deg); }
+.menu-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+.menu-toggle:active { opacity: 0.7; }
+.toggle-left { display: flex; align-items: center; gap: 8px; }
+.toggle-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.toggle-arrow {
+  font-size: 10px;
+  transition: transform 0.3s;
+}
+.toggle-arrow.open { transform: rotate(180deg); }
 
-  /* Menu panel */
-  .menu-panel {
-    width: 100%;
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .menu-panel.open { max-height: 600px; }
+.menu-panel {
+  width: 100%;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.menu-panel.open { max-height: 600px; }
 
-  .menu-inner {
-    padding-bottom: 8px;
-  }
+.menu-inner { padding-bottom: 8px; }
 
-  .menu-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
+.menu-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
 
-  .menu-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 10px 6px 14px;
-    border-radius: 99px;
-    font-size: 13px;
-    color: var(--text);
-    border: 1px solid transparent;
-    transition: background 0.15s, border-color 0.15s;
-  }
+.menu-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px 6px 14px;
+  border-radius: 99px;
+  font-size: 13px;
+  border: 1px solid transparent;
+}
 
-  .chip-del {
-    width: 18px; height: 18px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 50%;
-    border: none;
-    background: rgba(255,255,255,0.1);
-    color: rgba(255,255,255,0.5);
-    font-size: 13px;
-    cursor: pointer;
-    flex-shrink: 0;
-    line-height: 1;
-    transition: background 0.15s, color 0.15s;
-  }
-  .chip-del:active {
-    background: rgba(244,63,94,0.3);
-    color: #f472b6;
-  }
+.chip-del {
+  width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  font-size: 13px;
+  cursor: pointer;
+  flex-shrink: 0;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+.chip-del:active {
+  background: rgba(244,63,94,0.3);
+  color: #f472b6;
+}
 
-  .add-row {
-    display: flex;
-    gap: 8px;
-  }
-  .add-input {
-    flex: 1;
-    padding: 11px 14px;
-    font-size: 14px;
-    font-family: var(--font-body);
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.2s;
-    -webkit-appearance: none;
-  }
-  .add-input::placeholder { color: rgba(240,238,248,0.25); }
-  .add-input:focus { border-color: rgba(167,139,250,0.5); }
+.add-row { display: flex; gap: 8px; }
 
-  .add-btn {
-    padding: 11px 18px;
-    font-size: 14px;
-    font-family: var(--font-body);
-    font-weight: 500;
-    background: rgba(167,139,250,0.15);
-    border: 1px solid rgba(167,139,250,0.3);
-    border-radius: 12px;
-    color: var(--accent);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.15s;
-  }
-  .add-btn:active { background: rgba(167,139,250,0.25); }
+.add-input {
+  flex: 1;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: 'Noto Sans SC', sans-serif;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+.add-input::placeholder { color: rgba(240,238,248,0.25); }
+.add-input:focus { border-color: rgba(167,139,250,0.5); }
 
-  .hint {
-    text-align: center;
-    font-size: 11px;
-    color: rgba(240,238,248,0.2);
-    margin-top: 12px;
-    letter-spacing: 0.3px;
-  }
+.add-btn {
+  padding: 11px 18px;
+  font-size: 14px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 500;
+  background: rgba(167,139,250,0.15);
+  border: 1px solid rgba(167,139,250,0.3);
+  border-radius: 12px;
+  color: var(--accent);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.add-btn:active { background: rgba(167,139,250,0.25); }
 
-  /* Confetti */
-  .confetti-piece {
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    border-radius: 2px;
-    pointer-events: none;
-    z-index: 999;
-    animation: confetti-fall var(--dur) ease-in forwards;
-  }
-  @keyframes confetti-fall {
-    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-  }
+.hint {
+  text-align: center;
+  font-size: 11px;
+  color: rgba(240,238,248,0.2);
+  margin-top: 12px;
+  letter-spacing: 0.3px;
+}
+
+.confetti-piece {
+  position: fixed;
+  width: 8px; height: 8px;
+  pointer-events: none;
+  z-index: 999;
+  animation: confetti-fall var(--dur) ease-in forwards;
+}
+@keyframes confetti-fall {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
 </style>
 </head>
 <body>
@@ -370,11 +344,11 @@
     <canvas id="wheelCanvas" width="600" height="600"></canvas>
   </div>
 
-  <button class="spin-btn" id="spinBtn" onclick="spin()">开 转 ！</button>
+  <button class="spin-btn" id="spinBtn" onclick="spin()"> 转啊转 </button>
 
   <div class="result-area">
     <div class="result-card" id="resultCard">
-      <div class="result-emoji" id="resultEmoji">🍜</div>
+      <div class="result-emoji" id="resultEmoji">🍽️</div>
       <div class="result-label">今天就吃</div>
       <div class="result-name" id="resultName"></div>
     </div>
@@ -385,7 +359,7 @@
   <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
     <div class="toggle-left">
       <span class="toggle-dot"></span>
-      <span id="menuLabel">菜单设置 · <span id="menuCountText">8 项</span></span>
+      <span>菜单设置 · <span id="menuCountText">9 项</span></span>
     </div>
     <span class="toggle-arrow" id="toggleArrow">▼</span>
   </button>
@@ -394,17 +368,16 @@
     <div class="menu-inner">
       <div class="menu-grid" id="menuGrid"></div>
       <div class="add-row">
-        <input class="add-input" id="addInput" placeholder="添加新选项，如：螺蛳粉" maxlength="12" />
+        <input class="add-input" id="addInput" placeholder="添加新菜，如：红烧肉" maxlength="12" />
         <button class="add-btn" onclick="addItem()">添加</button>
       </div>
-      <p class="hint">长按可删除 · 至少保留 2 项</p>
+      <p class="hint">至少保留 2 项</p>
     </div>
   </div>
 </div>
 
 <script>
-// ─── Data ───────────────────────────────────────────────
-const PALETTES = [
+var PALETTES = [
   { arc:'#312e81', text:'#c7d2fe', light:'#1e1b4b' },
   { arc:'#134e4a', text:'#99f6e4', light:'#0f3d39' },
   { arc:'#7c2d12', text:'#fed7aa', light:'#5c2008' },
@@ -413,148 +386,147 @@ const PALETTES = [
   { arc:'#365314', text:'#d9f99d', light:'#263d0e' },
   { arc:'#78350f', text:'#fde68a', light:'#5a2608' },
   { arc:'#4a044e', text:'#f5d0fe', light:'#370336' },
+  { arc:'#1c3a2a', text:'#86efac', light:'#12281c' },
 ];
 
-const EMOJIS = ['🍜','🐟','🐔','🍗','🐟','🌶️','🍖','🍤','🥗','🍝','🍚'];
+var items = [
+  ['螺蛳粉',   '🍜'],
+  ['酸菜鱼',   '🐟'],
+  ['手撕鸡',   '🍗'],
+  ['烧鸡',     '🍗'],
+  ['清蒸鲈鱼', '🐠'],
+  ['辣椒炒肉', '🌶️'],
+  ['蒸排骨',   '🥩'],
+  ['通心粉',   '🍝'],
+  ['焖饭',     '🍚'],
+];
 
-let items = ['螺蛳粉','酸菜鱼','手撕鸡','烧鸡','清蒸鲈鱼','辣椒炒肉','蒸排骨','通心粉','焖饭'];
-let spinning = false;
-let angle = 0;
-let menuOpen = false;
+var spinning = false;
+var angle = 0;
+var menuOpen = false;
 
-// ─── Stars ───────────────────────────────────────────────
-(function(){
-  const c = document.getElementById('stars');
-  for(let i=0;i<60;i++){
-    const s = document.createElement('div');
+/* 星星 */
+(function() {
+  var c = document.getElementById('stars');
+  for (var i = 0; i < 60; i++) {
+    var s = document.createElement('div');
     s.className = 'star';
-    const sz = Math.random()*2+1;
-    s.style.cssText = `
-      width:${sz}px;height:${sz}px;
-      left:${Math.random()*100}%;top:${Math.random()*100}%;
-      --d:${2+Math.random()*4}s;
-      --o:${0.3+Math.random()*0.5};
-      animation-delay:${Math.random()*4}s;
-    `;
+    var sz = Math.random() * 2 + 1;
+    s.style.cssText =
+      'width:' + sz + 'px;height:' + sz + 'px;' +
+      'left:' + (Math.random() * 100) + '%;' +
+      'top:' + (Math.random() * 100) + '%;' +
+      '--d:' + (2 + Math.random() * 4) + 's;' +
+      '--o:' + (0.3 + Math.random() * 0.5) + ';' +
+      'animation-delay:' + (Math.random() * 4) + 's;';
     c.appendChild(s);
   }
 })();
 
-// ─── Canvas ───────────────────────────────────────────────
-const canvas = document.getElementById('wheelCanvas');
-const ctx = canvas.getContext('2d');
+/* 画转盘 */
+var canvas = document.getElementById('wheelCanvas');
+var ctx = canvas.getContext('2d');
 
-function drawWheel(){
-  const W=600, H=600, cx=300, cy=300, r=288;
-  ctx.clearRect(0,0,W,H);
+function drawWheel() {
+  var W = 600, H = 600, cx = 300, cy = 300, r = 284;
+  ctx.clearRect(0, 0, W, H);
 
-  const n = items.length;
-  const slice = Math.PI*2/n;
+  var n = items.length;
+  var slice = Math.PI * 2 / n;
+  var emojiSz = n > 8 ? 20 : 24;
+  var nameSz  = n > 8 ? 22 : 26;
 
-  // outer glow ring
-  const grd = ctx.createRadialGradient(cx,cy,r-6,cx,cy,r+2);
-  grd.addColorStop(0,'rgba(167,139,250,0.3)');
-  grd.addColorStop(1,'transparent');
-  ctx.beginPath();
-  ctx.arc(cx,cy,r+2,0,Math.PI*2);
-  ctx.fillStyle=grd;
-  ctx.fill();
+  for (var i = 0; i < n; i++) {
+    var pal     = PALETTES[i % PALETTES.length];
+    var start   = angle + i * slice - Math.PI / 2;
+    var end     = start + slice;
+    var name    = items[i][0];
+    var emoji   = items[i][1];
+    var display = name.length > 5 ? name.slice(0, 4) + '…' : name;
 
-  items.forEach((item,i)=>{
-    const pal = PALETTES[i % PALETTES.length];
-    const start = angle + i*slice - Math.PI/2;
-    const end = start + slice;
-
-    // slice fill
+    /* 扇形 */
     ctx.beginPath();
-    ctx.moveTo(cx,cy);
-    ctx.arc(cx,cy,r,start,end);
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, start, end);
     ctx.closePath();
     ctx.fillStyle = pal.light;
     ctx.fill();
-
-    // arc border subtle
-    ctx.beginPath();
-    ctx.moveTo(cx,cy);
-    ctx.arc(cx,cy,r,start,end);
-    ctx.closePath();
     ctx.strokeStyle = pal.arc;
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2.5;
     ctx.stroke();
 
-    // divider lines
+    /* 分割线 */
     ctx.beginPath();
-    ctx.moveTo(cx,cy);
-    const ex = cx + r*Math.cos(start);
-    const ey = cy + r*Math.sin(start);
-    ctx.lineTo(ex,ey);
-    ctx.strokeStyle = 'rgba(0,0,0,0.4)';
-    ctx.lineWidth = 2;
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + r * Math.cos(start), cy + r * Math.sin(start));
+    ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+    ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    // text
+    /* emoji + 菜名 */
+    var mid = start + slice / 2;
     ctx.save();
-    ctx.translate(cx,cy);
-    ctx.rotate(start + slice/2);
-
-    const fontSize = n>10 ? 22 : n>7 ? 26 : 30;
-    ctx.font = `500 ${fontSize}px 'Noto Sans SC', sans-serif`;
-    ctx.fillStyle = pal.text;
+    ctx.translate(cx, cy);
+    ctx.rotate(mid);
     ctx.textAlign = 'right';
+
+    ctx.font = emojiSz + 'px serif';
     ctx.textBaseline = 'middle';
+    ctx.fillText(emoji, r - 16, -12);
 
-    const maxLen = 6;
-    const display = item.length > maxLen ? item.slice(0,maxLen-1)+'…' : item;
-    ctx.fillText(display, r-22, 0);
+    ctx.font = '500 ' + nameSz + 'px "Noto Sans SC", sans-serif';
+    ctx.fillStyle = pal.text;
+    ctx.textBaseline = 'middle';
+    ctx.fillText(display, r - 16, 14);
+
     ctx.restore();
-  });
+  }
 
-  // center hub
-  const hubR = 46;
-  const hubGrd = ctx.createRadialGradient(cx,cy-4,0,cx,cy,hubR);
-  hubGrd.addColorStop(0,'#2d2a4e');
-  hubGrd.addColorStop(1,'#1a1728');
+  /* 中心圆 */
+  var hg = ctx.createRadialGradient(cx, cy - 4, 0, cx, cy, 44);
+  hg.addColorStop(0, '#2d2a4e');
+  hg.addColorStop(1, '#1a1728');
   ctx.beginPath();
-  ctx.arc(cx,cy,hubR,0,Math.PI*2);
-  ctx.fillStyle=hubGrd;
+  ctx.arc(cx, cy, 44, 0, Math.PI * 2);
+  ctx.fillStyle = hg;
   ctx.fill();
-  ctx.strokeStyle='rgba(167,139,250,0.4)';
-  ctx.lineWidth=2;
+  ctx.strokeStyle = 'rgba(167,139,250,0.5)';
+  ctx.lineWidth = 2;
   ctx.stroke();
 
-  ctx.fillStyle='#f0eef8';
-  ctx.font="500 24px 'ZCOOL XiaoWei', serif";
-  ctx.textAlign='center';
-  ctx.textBaseline='middle';
-  ctx.fillText('转',cx,cy);
+  ctx.fillStyle = '#f0eef8';
+  ctx.font = '500 22px "ZCOOL XiaoWei", serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('转', cx, cy);
 }
 
 canvas.addEventListener('click', spin);
 
-// ─── Spin ───────────────────────────────────────────────
-function spin(){
-  if(spinning || items.length<2) return;
-  spinning=true;
-  document.getElementById('spinBtn').disabled=true;
+/* 旋转 */
+function spin() {
+  if (spinning || items.length < 2) return;
+  spinning = true;
+  document.getElementById('spinBtn').disabled = true;
   document.getElementById('resultCard').classList.remove('show');
   document.getElementById('wheelGlow').classList.add('active');
 
-  const extra = Math.PI*2*(6+Math.random()*6) + Math.random()*Math.PI*2;
-  const dur = 4000+Math.random()*1500;
-  const t0 = performance.now();
-  const a0 = angle;
+  var extra = Math.PI * 2 * (6 + Math.random() * 6) + Math.random() * Math.PI * 2;
+  var dur   = 4000 + Math.random() * 1500;
+  var t0    = performance.now();
+  var a0    = angle;
 
-  function ease(t){ return 1-Math.pow(1-t,4); }
+  function ease(t) { return 1 - Math.pow(1 - t, 4); }
 
-  function frame(now){
-    const t = Math.min((now-t0)/dur,1);
-    angle = a0 + extra*ease(t);
+  function frame(now) {
+    var t = Math.min((now - t0) / dur, 1);
+    angle = a0 + extra * ease(t);
     drawWheel();
-    if(t<1){
+    if (t < 1) {
       requestAnimationFrame(frame);
     } else {
-      spinning=false;
-      document.getElementById('spinBtn').disabled=false;
+      spinning = false;
+      document.getElementById('spinBtn').disabled = false;
       document.getElementById('wheelGlow').classList.remove('active');
       showResult();
     }
@@ -562,89 +534,105 @@ function spin(){
   requestAnimationFrame(frame);
 }
 
-function getResult(){
-  const n=items.length;
-  const slice=Math.PI*2/n;
-  const norm=((((-angle)%(Math.PI*2))+Math.PI*2))%(Math.PI*2);
-  return items[Math.floor(norm/slice)%n];
+function getWinner() {
+  var n    = items.length;
+  var sl   = Math.PI * 2 / n;
+  var norm = ((-angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+  return items[Math.floor(norm / sl) % n];
 }
 
-function showResult(){
-  const winner = getResult();
-  const ei = Math.floor(Math.random()*EMOJIS.length);
-  document.getElementById('resultEmoji').textContent = EMOJIS[ei];
-  document.getElementById('resultName').textContent = winner;
-  const card = document.getElementById('resultCard');
-  card.classList.add('show');
+function showResult() {
+  var w = getWinner();
+  document.getElementById('resultEmoji').textContent = w[1];
+  document.getElementById('resultName').textContent  = w[0];
+  document.getElementById('resultCard').classList.add('show');
   launchConfetti();
 }
 
-// ─── Confetti ───────────────────────────────────────────────
-function launchConfetti(){
-  const colors=['#a78bfa','#f472b6','#fbbf24','#34d399','#60a5fa','#fb7185'];
-  const cx = window.innerWidth/2;
-  const cy = window.innerHeight*0.45;
-  for(let i=0;i<50;i++){
-    const el=document.createElement('div');
-    el.className='confetti-piece';
-    const angle=Math.random()*Math.PI*2;
-    const speed=80+Math.random()*120;
-    const dx=Math.cos(angle)*speed;
-    el.style.cssText=`
-      left:${cx+dx-4}px;top:${cy}px;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      --dur:${1.2+Math.random()*1}s;
-      animation-delay:${Math.random()*0.3}s;
-      border-radius:${Math.random()>0.5?'50%':'2px'};
-    `;
+/* 彩纸 */
+function launchConfetti() {
+  var colors = ['#a78bfa','#f472b6','#fbbf24','#34d399','#60a5fa','#fb7185'];
+  var bx = window.innerWidth / 2;
+  var by = window.innerHeight * 0.45;
+  for (var i = 0; i < 50; i++) {
+    var el = document.createElement('div');
+    el.className = 'confetti-piece';
+    var a   = Math.random() * Math.PI * 2;
+    var spd = 80 + Math.random() * 120;
+    el.style.cssText =
+      'left:' + (bx + Math.cos(a) * spd - 4) + 'px;' +
+      'top:' + by + 'px;' +
+      'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
+      '--dur:' + (1.2 + Math.random()) + 's;' +
+      'animation-delay:' + (Math.random() * 0.3) + 's;' +
+      'border-radius:' + (Math.random() > 0.5 ? '50%' : '2px') + ';';
     document.body.appendChild(el);
-    setTimeout(()=>el.remove(),3000);
+    (function(e) { setTimeout(function() { e.remove(); }, 3000); })(el);
   }
 }
 
-// ─── Menu ───────────────────────────────────────────────
-function toggleMenu(){
+/* 菜单 */
+function toggleMenu() {
   menuOpen = !menuOpen;
   document.getElementById('menuPanel').classList.toggle('open', menuOpen);
   document.getElementById('toggleArrow').classList.toggle('open', menuOpen);
 }
 
-function renderMenu(){
-  const grid = document.getElementById('menuGrid');
-  grid.innerHTML='';
-  items.forEach((item,i)=>{
-    const pal=PALETTES[i%PALETTES.length];
-    const chip=document.createElement('div');
-    chip.className='menu-chip';
-    chip.style.cssText=`background:${pal.light};border-color:${pal.arc};color:${pal.text};`;
-    chip.innerHTML=`<span>${item}</span>
-      <button class="chip-del" onclick="removeItem(${i})">×</button>`;
+function renderMenu() {
+  var grid = document.getElementById('menuGrid');
+  grid.innerHTML = '';
+  for (var i = 0; i < items.length; i++) {
+    var pal  = PALETTES[i % PALETTES.length];
+    var chip = document.createElement('div');
+    chip.className = 'menu-chip';
+    chip.style.cssText = 'background:' + pal.light + ';border-color:' + pal.arc + ';color:' + pal.text + ';';
+    chip.innerHTML =
+      '<span>' + items[i][1] + ' ' + items[i][0] + '</span>' +
+      '<button class="chip-del" onclick="removeItem(' + i + ')">×</button>';
     grid.appendChild(chip);
-  });
-  document.getElementById('menuCountText').textContent=`${items.length} 项`;
+  }
+  document.getElementById('menuCountText').textContent = items.length + ' 项';
   drawWheel();
 }
 
-function addItem(){
-  const inp=document.getElementById('addInput');
-  const val=inp.value.trim();
-  if(!val||items.includes(val)){inp.focus();return;}
-  items.push(val);
-  inp.value='';
+var EMOJI_MAP = [
+  ['排骨','🥩'],['螺蛳','🍜'],['拉面','🍜'],['寿司','🍣'],['沙拉','🥗'],
+  ['汉堡','🍔'],['比萨','🍕'],['饺子','🥟'],
+  ['粉','🍜'],['面','🍝'],['饭','🍚'],['鱼','🐟'],['虾','🦐'],['蟹','🦀'],
+  ['鸡','🍗'],['鸭','🍖'],['肉','🥩'],['猪','🥓'],['牛','🥩'],
+  ['锅','🍲'],['汤','🥣'],['饼','🫓'],['包','🥙'],['卷','🌯'],
+  ['炒','🍳'],['蒸','♨️'],['烤','🔥'],['辣','🌶️'],['酸','🍋']
+];
+
+function guessEmoji(name) {
+  for (var j = 0; j < EMOJI_MAP.length; j++) {
+    if (name.indexOf(EMOJI_MAP[j][0]) !== -1) return EMOJI_MAP[j][1];
+  }
+  return '🍽️';
+}
+
+function addItem() {
+  var inp = document.getElementById('addInput');
+  var val = inp.value.trim();
+  if (!val) { inp.focus(); return; }
+  for (var i = 0; i < items.length; i++) {
+    if (items[i][0] === val) { inp.focus(); return; }
+  }
+  items.push([val, guessEmoji(val)]);
+  inp.value = '';
   renderMenu();
 }
 
-function removeItem(i){
-  if(items.length<=2){return;}
-  items.splice(i,1);
+function removeItem(idx) {
+  if (items.length <= 2) return;
+  items.splice(idx, 1);
   renderMenu();
 }
 
-document.getElementById('addInput').addEventListener('keydown',e=>{
-  if(e.key==='Enter')addItem();
+document.getElementById('addInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') addItem();
 });
 
-// ─── Init ───────────────────────────────────────────────
 renderMenu();
 </script>
 </body>
